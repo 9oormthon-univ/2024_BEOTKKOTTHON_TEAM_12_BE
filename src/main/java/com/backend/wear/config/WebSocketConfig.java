@@ -23,7 +23,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                 .setAllowedOriginPatterns("*")
                 .withSockJS();
 
-        log.info("엔드포인트 연결 완료");
+        log.info("엔드포인트 연결");
     }
 
     //메세지 브로커에 관한 설정

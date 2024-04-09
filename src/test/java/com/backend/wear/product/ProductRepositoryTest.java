@@ -1,6 +1,6 @@
 package com.backend.wear.product;
 
-//import com.backend.wear.dto.ProductResponseDto;
+//import com.backend.wear.dto.product.ProductResponseDto;
 //import com.backend.wear.entity.Product;
 //import com.backend.wear.repository.ProductRepository;
 //import com.backend.wear.service.product.ProductService;

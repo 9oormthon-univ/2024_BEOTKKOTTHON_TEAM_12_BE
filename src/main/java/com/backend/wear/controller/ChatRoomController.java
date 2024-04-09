@@ -1,9 +1,6 @@
 package com.backend.wear.controller;
 
-import com.backend.wear.dto.ChatMessageDto;
-import com.backend.wear.dto.ChatRoomDto;
-import com.backend.wear.dto.ChatRoomIdDto;
-import com.backend.wear.dto.ChatRoomProfileDto;
+import com.backend.wear.dto.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +65,7 @@ public class ChatRoomController {
                                        @RequestParam Long productId)
     {
         try{
-            List<ChatMessageDto> list=chatService.enterChatRoom(roomId, productId);
+            List<ChatMessageSendDto> list=chatService.enterChatRoom(roomId, productId);
 
             log.info("채팅방 입장 완료");
 

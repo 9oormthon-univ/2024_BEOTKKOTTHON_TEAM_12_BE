@@ -43,7 +43,6 @@ public class Product extends BaseEntity {
     @Column(name="product_image", columnDefinition = "json")
     private String productImage;
 
-
     //상품 내용, 설명
     @NotNull
     @Column(name="product_content")
@@ -68,25 +67,17 @@ public class Product extends BaseEntity {
     private boolean isPrivate;
 
     //판매자
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User user;
 
     //카테고리
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="category_id")
     private Category category;
 
-    //찜
-    @OneToOne(mappedBy = "product", fetch = FetchType.LAZY)
-    private Wish wish;
-
-    //찜 횟수, 조회수
-    @OneToOne(mappedBy = "product", fetch = FetchType.LAZY)
-    private Count count;
-
     //채팅방
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product")
     private List<ChatRoom> chatRoomList=new ArrayList<>();
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
@@ -97,7 +88,6 @@ public class Product extends BaseEntity {
 
         deletedAt= LocalDateTime.now();
     }
-
 
     // List<String>를 JSON 문자열로 변환하는 메서드
     private String convertImageListToJson(List<String> imageList) throws JsonProcessingException {
@@ -112,7 +102,7 @@ public class Product extends BaseEntity {
     }
 
     @Builder
-    public Product(String productName, int price, String productImage, String productContent, String productStatus, String postStatus, String place, boolean isPrivate, User user, Category category, Wish wish, Count count) {
+    public Product(String productName, int price, String productImage, String productContent, String productStatus, String postStatus, String place, boolean isPrivate, User user, Category category) {
         this.productName = productName;
         this.price = price;
         this.productImage = productImage;
@@ -123,7 +113,5 @@ public class Product extends BaseEntity {
         this.isPrivate = isPrivate;
         this.user = user;
         this.category = category;
-        this.wish = wish;
-        this.count = count;
     }
 }

@@ -10,6 +10,8 @@ import java.util.Optional;
 
 @Repository
 public interface WishRepository extends JpaRepository<Wish, Long> {
-    Optional<Wish> findByProductId(Long productId);
+
+    //사용자가 찜한 상품
+    Optional<Wish> findByUserIdAndProductId(Long userId, Long productId);
     List<Wish> findByUserId(Long userId);
 }

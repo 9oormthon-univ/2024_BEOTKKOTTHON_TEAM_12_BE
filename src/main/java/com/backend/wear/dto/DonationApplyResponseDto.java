@@ -13,20 +13,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class DonationApplyResponseDto {
 
-  //  @JsonProperty(value="id")
     private Long id; //기부 pk
 
-  //  @JsonProperty(value="date")
-    private String date;
+    private String date; //기부 날짜
 
-//    @JsonProperty(value="clothes_count")
     private Integer clothesCount; //의류 개수
 
-//    @JsonProperty(value="fashion_count")
     private Integer fashionCount; //잡화 개수
 
     private Boolean isDonationComplete; //기부 상태 (true, false)

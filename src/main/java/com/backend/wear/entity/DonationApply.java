@@ -19,7 +19,7 @@ public class DonationApply extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY )
     @JoinColumn(name="user_id")
     private User user; //기부 신청자
 
@@ -62,7 +62,8 @@ public class DonationApply extends BaseEntity {
 
     @Builder
     public DonationApply(User user, Integer charityNumber, String userName, String address, String phone,
-                         String email, String donationItem, Integer clothesCount, Integer fashionCount, Integer boxCount){
+                         String email, String donationItem, Integer clothesCount, Integer fashionCount, Integer boxCount,
+                         boolean isDonationComplete){
         this.user=user;
         this.charityNumber=charityNumber;
         this.userName=userName;
@@ -73,6 +74,6 @@ public class DonationApply extends BaseEntity {
         this.clothesCount=clothesCount;
         this.fashionCount=fashionCount;
         this.boxCount=boxCount;
-        this.isDonationComplete=false;
+        this.isDonationComplete=isDonationComplete;
     }
 }

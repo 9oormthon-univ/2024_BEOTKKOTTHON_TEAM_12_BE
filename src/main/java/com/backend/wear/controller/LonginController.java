@@ -16,17 +16,20 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 public class LonginController {
-
-    private final LoginService loginService;
-
-    private String myUniversityName;
-    private String myUniversityEmail;
-
-    @Autowired
-    public LonginController (LoginService loginService){
-
-        this.loginService=loginService;
-    }
+//
+//    private final LoginService loginService;
+//
+//    private String myUniversityName;
+//    private String myUniversityEmail;
+//
+//    @Value("${api.key}")
+//    private String API_KEY;
+//
+//    @Autowired
+//    public LonginController (LoginService loginService){
+//
+//        this.loginService=loginService;
+//    }
 
     // api/login
 //    @PostMapping("/login")

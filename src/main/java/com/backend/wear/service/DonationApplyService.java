@@ -1,12 +1,10 @@
 package com.backend.wear.service;
 
 import com.backend.wear.dto.DonationApplyRequestDto;
-import com.backend.wear.dto.UserResponseDto;
 import com.backend.wear.entity.DonationApply;
 import com.backend.wear.entity.User;
 import com.backend.wear.repository.DonationApplyRepository;
 import com.backend.wear.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,12 +21,13 @@ public class DonationApplyService {
         this.userRepository=userRepository;
     }
 
-    //기부 신청
-    public void postDonationApplyService(Long userId, Integer charityNumber, DonationApplyRequestDto dto){
+    // 기부 신청
+    public void donationApplyService(Long userId, Integer charityNumber, DonationApplyRequestDto dto){
+        // 아이디로 사용자 조회 (기부 신청자)
         User applyUser = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("사용자를 찾지 못하였습니다."));
 
-        DonationApply donationApply=DonationApply.builder()
+        DonationApply donationApply= DonationApply.builder()
                 .user(applyUser)
                 .charityNumber(charityNumber)
                 .userName(dto.getUserName())
@@ -39,12 +38,12 @@ public class DonationApplyService {
                 .clothesCount(dto.getClothesCount())
                 .fashionCount(dto.getFashionCount())
                 .boxCount(dto.getBoxCount())
+                .isDonationComplete(false)
                 .build();
 
         donationApplyRepository.save(donationApply);
 
-        //환경 점수 추가
+        // 환경 점수 추가
         applyUser.setPoint(applyUser.getPoint()+5);
-        userRepository.save(applyUser);
     }
 }

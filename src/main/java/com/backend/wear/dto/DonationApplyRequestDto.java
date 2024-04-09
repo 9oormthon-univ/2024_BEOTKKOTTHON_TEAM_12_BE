@@ -7,14 +7,15 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.*;
 
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class DonationApplyRequestDto {
     private String userName; //기부 신청자 이름
+
     private String address;
+
     private String phone;
+
     private String email;
 
     private String donationItem; //기부 품목
@@ -24,5 +25,4 @@ public class DonationApplyRequestDto {
     private Integer fashionCount; //잡화 수량
 
     private Integer boxCount; //박스 개수
-
 }

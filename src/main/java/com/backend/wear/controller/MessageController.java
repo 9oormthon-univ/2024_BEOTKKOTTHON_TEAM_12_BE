@@ -1,5 +1,6 @@
 package com.backend.wear.controller;
 
+import com.backend.wear.dto.ChatMessageSendDto;
 import com.backend.wear.entity.ChatMessage;
 import com.backend.wear.entity.MyMessage;
 import com.backend.wear.repository.ChatRoomRepository;
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,9 +29,13 @@ public class MessageController {
     //메시지 보내기
     // pub/api/chat/message
     @MessageMapping("/api/chat/message")
-    public void enter(MyMessage message) {
+    public void sendMessage (ChatMessageSendDto dto, SimpMessageHeaderAccessor accessor) {
 
         //sub/api/chat/room/{roomId}
-        sendingOperations.convertAndSend("/sub/api/chat/room/"+message.getChatRoomId(), message);
+
+        // 메시지 저장 로지
+
+
+        sendingOperations.convertAndSend("/sub/api/chat/room/"+dto.getChatRoomId(), dto);
     }
 }

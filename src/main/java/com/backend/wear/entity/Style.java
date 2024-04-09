@@ -25,7 +25,7 @@ public class Style extends BaseEntity {
     @Column(name="style_name")
     private String styleName;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     User user;
 

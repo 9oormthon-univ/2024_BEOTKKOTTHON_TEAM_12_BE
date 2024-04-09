@@ -1,8 +1,7 @@
 package com.backend.wear.repository;
 
 import com.backend.wear.entity.Product;
-import com.backend.wear.dto.ProductResponseDto;
-import com.backend.wear.entity.User;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,26 +12,25 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
-
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    // isPrivate가 false인 상품들만 반환
-    Page<Product> findByIsPrivateFalse(Pageable pageable);
+    // 전체 상품 페이지 (숨김x)
+    @Query("SELECT p FROM Product p WHERE p.isPrivate = false AND (:blockedUserIdList IS EMPTY OR p.user.id NOT IN :blockedUserIdList)")
+    Page<Product> findAllProductPage(List<Long> blockedUserIdList, Pageable pageable );
 
-    // 카테고리별로 isPrivate가 false인 상품 조회
-    Page<Product> findByCategory_CategoryNameAndIsPrivateFalse(String categoryName, Pageable pageable);
+    // 카테고리 이름과 일치하는 상품 페이지 (숨김x)
+    @Query("SELECT p FROM Product p WHERE p.category.categoryName = :categoryName AND p.isPrivate = false  AND (:blockedUserIdList IS EMPTY OR p.user.id NOT IN :blockedUserIdList)")
+    Page<Product> findByCategoryNamePage(@Param("categoryName") String categoryName,List<Long> blockedUserIdList, Pageable pageable);
 
-    // 판매 상태와 카테고리별로 isPrivate가 false인 상품 조회
-    Page<Product> findByPostStatusAndCategory_CategoryNameAndIsPrivateFalse(String postStatus, String categoryName, Pageable pageable);
+    // 전체 판매 중인 상품 페이지 (숨김x)
+    @Query("SELECT p FROM Product p WHERE p.postStatus='onSale' AND p.isPrivate = false  AND (:blockedUserIdList IS EMPTY OR p.user.id NOT IN :blockedUserIdList)")
+    Page<Product> findByPostStatusPage(List<Long> blockedUserIdList, Pageable pageable);
 
-    //판매중인 상품만 조회
-    Page<Product> findByPostStatusAndIsPrivateFalse(String postStatus, Pageable pageable);
-
-
-
+    // 카테고리 이름과 일치하는 판매 중인 상품 페이지 (숨김x)
+    @Query("SELECT p FROM Product p WHERE p.category.categoryName = :categoryName AND p.postStatus='onSale' AND  p.isPrivate = false  AND (:blockedUserIdList IS EMPTY OR p.user.id NOT IN :blockedUserIdList)")
+    Page<Product> findByCategoryNameAndPostStatusPage(@Param("categoryName") String categoryName, List<Long> blockedUserIdList, Pageable pageable);
 
     //검색어별 상품 조회
     /*List<Product> findByProductNameContainingIgnoreCase(String searchName);*/
@@ -44,13 +42,14 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByProductNameAndCategoryName(@Param("searchName") String seacrchName, @Param("categoryName") String categoryName);
 
 
-    //사용자 아이디로 판매자 조회
-    User findUserById(Long productId);
-
+    // 사용자 아이디로 상품 조회
     List<Product> findByUserId(Long userId);
 
-    // User 클래스의 id와 Product 클래스의 isPrivate 필드가 true
-    List<Product> findByUser_IdAndIsPrivateTrue(Long userId);
+    // 판매 상품 중 숨김 상품 조회
+    @Modifying
+    @Transactional
+    @Query("SELECT p FROM Product p WHERE p.user.id = :userId AND p.isPrivate = true")
+    List<Product> findByUserIdAndIsPrivateTrue(Long userId);
 
     //상품 삭제하기
     @Modifying
@@ -58,7 +57,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("delete from Product p where p.user.id = :userId and p.id = :productId")
     void deleteByUserAndProduct(@Param("userId") Long userId, @Param("productId") Long productId);
 
-    //구매내역
-    @Query("SELECT p FROM Product p WHERE p.user.id != :userId AND p.productStatus = 'soldOut'")
-    List<Product> findSoldOutProductsByUserId(Long userId);
+    // 구매내역
+  //  @Query("SELECT p FROM Product p WHERE p.user.id != :userId AND p.productStatus = 'soldOut'")
+  //  List<Product> findSoldOutProductsByUserId(Long userId);
 }

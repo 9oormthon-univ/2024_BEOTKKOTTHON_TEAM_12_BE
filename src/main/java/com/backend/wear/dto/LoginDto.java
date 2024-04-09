@@ -16,7 +16,7 @@ import java.util.List;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class LoginDto {
 
-    private String userId;
+    private String userCreatedId;
     private String userPassword;
     private String userCheckPassword;
 //    private String universityName;

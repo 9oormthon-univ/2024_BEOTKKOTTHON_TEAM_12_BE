@@ -15,7 +15,7 @@ import java.util.List;
 @Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class StyleDto {
-    //스타일 태그 이름만 dto로
 
+    //스타일 태그 이름만 dto로
     private List<String> style;
 }

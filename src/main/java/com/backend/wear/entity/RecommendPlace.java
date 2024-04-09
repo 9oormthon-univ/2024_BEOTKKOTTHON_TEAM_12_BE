@@ -6,10 +6,6 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,23 +14,25 @@ import java.util.List;
 @DynamicInsert
 @DynamicUpdate
 @EntityListeners(AuditingEntityListener.class)
-@Table(name="university")
+@Table(name="recommend_place")
 @Entity
-public class University extends BaseEntity {
+public class RecommendPlace extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     // 대학 이름
-    @Column(name="university_name")
-    private String universityName;
+    @Column(name="place_name")
+    private String placeName;
 
-    // 대학별 환경 점수
-    @Column(name="univeristy_point",columnDefinition = "integer default 0")
-    private Integer universityPoint;
+    // 대학교 (대학 별 거래 장소 추천)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="university_id")
+    University university;
 
-    @OneToMany(mappedBy = "university")
-    private List<User> userList = new ArrayList<>();
+//    // 대학 이름
+//    @Column(name="university_name")
+//    private String universityName;
+
 }
-

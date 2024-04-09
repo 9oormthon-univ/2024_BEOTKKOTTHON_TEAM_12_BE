@@ -71,6 +71,4 @@ public class ProductResponseDto{
                 null // Remain level point는 여기서 설정하지 않음
         );
     }
-
-
 }

@@ -22,17 +22,23 @@ public class Wish extends Serializers.Base {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; //아이디
 
-    //찜 여부
-    @Column(name="is_selected",columnDefinition = "boolean default false")
-    private boolean isSelected;
+    // 찜 여부
+//    @Column(name="is_selected",columnDefinition = "boolean default false")
+//    private boolean isSelected;
 
-    //사용자
-    @ManyToOne
+    // 사용자
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User user;
 
-    //상품
-    @OneToOne(fetch = FetchType.LAZY)
+    // 상품
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="product_id")
     private Product product;
+
+    @Builder
+    public Wish(User user, Product product){
+        this.user=user;
+        this.product=product;
+    }
 }

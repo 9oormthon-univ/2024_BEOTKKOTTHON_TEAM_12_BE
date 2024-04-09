@@ -39,8 +39,8 @@ public class LoginService {
     }
 
     public LoginResponseDto loginByUser(LoginDto loginDto){
-        String userId= loginDto.getUserId();
-        User user= userRepository.findByUserId(userId)
+        String userCreatedId= loginDto.getUserCreatedId();
+        User user= userRepository.findByUserCreatedId(userCreatedId)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "사용자를 찾지 못하였습니다."));
 
@@ -80,7 +80,7 @@ public class LoginService {
         user.setUserName("wear");
         user.setNickName("wear");
 
-        user.setUserId(signUpDto.getUserId());
+        user.setUserCreatedId(signUpDto.getUserId());
         user.setUserPassword(signUpDto.getUserPassword());
         user.setPoint(20);
         user.setLevel(EnvironmentLevel.SAPLING);

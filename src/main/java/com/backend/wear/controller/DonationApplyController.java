@@ -17,7 +17,8 @@ public class DonationApplyController {
         this.donationApplyService=donationApplyService;
     }
 
-    //api/donations/{userId}?charity={charity}
+    // 기부 등록하기
+    // api/donations/{userId}?charity={charity}
     @PostMapping("/{userId}")
     public ResponseEntity<?> postDonationApply(@PathVariable("userId")Long userId,@RequestParam Integer charity,
                                                @RequestBody DonationApplyRequestDto donationApplyRequestDto){
@@ -25,14 +26,12 @@ public class DonationApplyController {
         System.out.println(donationApplyRequestDto.getEmail());
 
         try{
-            donationApplyService.postDonationApplyService(userId, charity, donationApplyRequestDto);
+            donationApplyService.donationApplyService(userId, charity, donationApplyRequestDto);
+            return ResponseEntity.ok().body("기부가 완료되었습니다.");
         }
-
         catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(e.getMessage());
         }
-        return ResponseEntity.ok().body("기부가 완료되었습니다.");
     }
-
 }

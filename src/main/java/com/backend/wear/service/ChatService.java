@@ -1,9 +1,6 @@
 package com.backend.wear.service;
 
-import com.backend.wear.dto.ChatMessageDto;
-import com.backend.wear.dto.ChatRoomDto;
-import com.backend.wear.dto.ChatRoomIdDto;
-import com.backend.wear.dto.ChatRoomProfileDto;
+import com.backend.wear.dto.*;
 import com.backend.wear.entity.ChatMessage;
 import com.backend.wear.entity.ChatRoom;
 import com.backend.wear.entity.Product;
@@ -20,7 +17,6 @@ import java.util.*;
 @Service
 @Slf4j
 public class ChatService {
-
     private final ChatRoomRepository chatRoomRepository;
 
     private final ProductRepository productRepository;
@@ -59,7 +55,7 @@ public class ChatService {
                     .customerProfileImage(existingRoom.getCustomer().getProfileImage())
                     .customerLevel(existingRoom.getCustomer().getLevel().getLabel())
                     .is_created(false)
-                    .messageList(getAllMessages(existingRoom.getId()))
+             //       .messageList(getAllMessages(existingRoom.getId()))
                     .build();
         }
 
@@ -102,7 +98,7 @@ public class ChatService {
     }
 
     //채팅방 입장
-    public List <ChatMessageDto> enterChatRoom(Long roomId, Long productId) {
+    public List <ChatMessageSendDto> enterChatRoom(Long roomId, Long productId) {
         ChatRoom chatRoom = chatRoomRepository.findById(roomId)
                 .orElseThrow(() -> new IllegalArgumentException("채팅 내역이 없습니다."));
 
@@ -117,40 +113,20 @@ public class ChatService {
         if (chatRoom.getMessageList().isEmpty())
             isCreated=true;
 
-//        ChatRoomDto chatRoomDto = ChatRoomDto.builder()
-//                .chatRoomId(chatRoom.getId())
-//                .productId(product.getId())
-//                .productImage(product.getProductImage())
-//                .productName(product.getProductName())
-//                .price(product.getPrice())
-//                .sellerId(seller.getId())
-//                .sellerNickName(seller.getNickName())
-//                .sellerProfileImage(seller.getProfileImage())
-//                .sellerLevel(seller.getLevel().getLabel())
-//                .customerId(customer.getId())
-//                .customerNickName(customer.getNickName())
-//                .customerProfileImage(customer.getProfileImage())
-//                .customerLevel(customer.getLevel().getLabel())
-//                .is_created(isCreated)
-//                .messageList(getAllMessages(chatRoom.getId()))
-//                .build();
-
         List<ChatMessage> chatMessageList = chatRoom.getMessageList();
-        int size=chatRoom.getMessageList().size();
-        List <ChatMessageDto> list=new ArrayList<>();
+        List <ChatMessageSendDto> list=new ArrayList<>();
 
         for(ChatMessage chatMessage: chatMessageList){
             User user = userRepository.findById(chatMessage.getUserId())
                     .get();
 
-            ChatMessageDto dto = ChatMessageDto.builder()
+            ChatMessageSendDto dto = ChatMessageSendDto.builder()
                     .userId(chatMessage.getUserId())
                     .chatRoomId(chatMessage.getChatRoom().getId())
                     .message(chatMessage.getMessage())
-                    .userType(chatMessage.getUserType())
+                    .timeStamp(chatMessage.getTimeStamp())
+                    .isMine(chatMessage.isMine())
                     .profilePic(user.getProfileImage())
-                    .sendTime(chatMessage.getSendTime())
-                    .isCreated(isCreated)
                     .build();
 
             list.add(dto);
@@ -160,17 +136,29 @@ public class ChatService {
     }
 
     // 모든 메시지 리스트 반환
-    public List<String> getAllMessages(Long chatRoomId){
+    public List<ChatMessageSendDto> getAllMessages(Long chatRoomId){
         ChatRoom chatRoom = chatRoomRepository.findById(chatRoomId).get();
 
-        List<String> messageList = new ArrayList<>();
         List<ChatMessage> chatMessageList = chatRoom.getMessageList();
+        List <ChatMessageSendDto> list=new ArrayList<>();
 
-        for(ChatMessage c: chatMessageList){
-            messageList.add(c.getMessage());
+        for(ChatMessage chatMessage: chatMessageList){
+            User user = userRepository.findById(chatMessage.getUserId())
+                    .get();
+
+            ChatMessageSendDto dto = ChatMessageSendDto.builder()
+                    .userId(chatMessage.getUserId())
+                    .chatRoomId(chatMessage.getChatRoom().getId())
+                    .message(chatMessage.getMessage())
+                    .timeStamp(chatMessage.getTimeStamp())
+                    .isMine(chatMessage.isMine())
+                    .profilePic(user.getProfileImage())
+                    .build();
+
+            list.add(dto);
         }
 
-        return messageList;
+        return list;
     }
 
     //채팅 리스트 불러오기

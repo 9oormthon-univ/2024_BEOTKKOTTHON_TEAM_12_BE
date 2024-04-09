@@ -10,12 +10,12 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 @Configuration
 @EnableWebSocket
 public class WebConfig implements WebMvcConfigurer {
-    private final StompHandshakeInterceptor interceptor;
+ //   private final StompHandshakeInterceptor interceptor;
 
-    @Autowired
-    public WebConfig(StompHandshakeInterceptor interceptor) {
-        this.interceptor = interceptor;
-    }
+//    @Autowired
+//    public WebConfig(StompHandshakeInterceptor interceptor) {
+//        this.interceptor = interceptor;
+//    }
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -31,8 +31,8 @@ public class WebConfig implements WebMvcConfigurer {
                 .maxAge(3600); // Preflight 요청 결과를 캐시하는 시간 (초)
     }
 
-//    @Bean
-//    public StompHandshakeInterceptor stompHandler() {
-//        return new StompHandshakeInterceptor();
-//    }
+    @Bean
+    public StompHandshakeInterceptor stompHandler() {
+        return new StompHandshakeInterceptor();
+    }
 }

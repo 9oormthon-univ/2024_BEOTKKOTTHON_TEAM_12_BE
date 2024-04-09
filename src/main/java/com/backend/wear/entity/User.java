@@ -31,10 +31,10 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //사용자 아이디
+    //사용자 로그인 아이디
     @NotNull
-    @Column(name="user_id")
-    private String userId;
+    @Column(name="user_created_id")
+    private String userCreatedId;;
 
     //사용자 패스워드
     @NotNull
@@ -52,7 +52,6 @@ public class User extends BaseEntity {
     private String nickName;
 
     //대학교 이메일
-
     @Column(name="university_email")
     private String universityEmail;
 
@@ -69,32 +68,32 @@ public class User extends BaseEntity {
     private EnvironmentLevel level;
 
     //스타일
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Style> style = new ArrayList<>();
 
     //프로필 이미지
-    @Column(name="profile_image", columnDefinition = "varchar(255) default 'default_image' ")
+    @Column(name="profile_image")
     private String profileImage;
 
     //대학교
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="university_id")
     University university;
 
     //판매 내역
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Product> productList = new ArrayList<>();
 
     //기부 내역
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Donation> donationList=new ArrayList<>();
 
     //기부 신청 내역
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<DonationApply> donationApplyList=new ArrayList<>();
 
     //찜목록
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Wish> wishList=new ArrayList<>();
 
 //    //채팅방

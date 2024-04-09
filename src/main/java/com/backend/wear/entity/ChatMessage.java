@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @DynamicInsert
 @Entity
 @Table(name = "chat_message")
-public class ChatMessage {
+public class ChatMessage extends BaseEntity {
 
     //아이디
     @Id
@@ -41,12 +41,13 @@ public class ChatMessage {
     //내용
     private String message;
 
-    //유저 ID
-    private Long userId; //유저 pk
+    //유저 pk
+    private Long userId;
 
     private String userType; // SELLER, CUSTOMER
 
     //생성시간
-    @CreatedDate
-    private LocalDateTime sendTime;
+    private String timeStamp;
+
+    private boolean isMine;
 }
