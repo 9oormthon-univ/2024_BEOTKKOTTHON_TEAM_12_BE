@@ -83,7 +83,10 @@ public class ProductController {
 
     }
 
-    //상품 리스트 검색어별, 카테고리별 , 최신순(default)으로 조회하기
+
+
+    //상품 리스트 검색어별, 카테고리별  , 최신순(default)으로 조회하기
+
     //   /products/search/category?searchName={searchName}?categoryName={categoryName}
     @GetMapping("/search/category")
     public ResponseEntity<?> searchProductsby(@RequestParam String searchName, String categoryName) {
