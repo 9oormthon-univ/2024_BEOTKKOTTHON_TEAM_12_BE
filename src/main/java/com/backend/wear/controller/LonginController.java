@@ -16,7 +16,7 @@ import java.util.Map;
 @RequestMapping("/api")
 public class LonginController {
 //
-//    private final LoginService loginService;
+//     private final LoginService loginService;
 //
 //    private String myUniversityName;
 //    private String myUniversityEmail;
