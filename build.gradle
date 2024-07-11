@@ -8,11 +8,11 @@ group = 'com.backend'
 version = '0.0.1-SNAPSHOT'
 
 
-bootJar{
+/*bootJar{
     archivesBaseName = 'wear'
     archiveFileName = 'wear.jar'
     archiveVersion = "0.0.1"
-}
+}*/
 
 jar {
     enabled = false
